@@ -1,12 +1,18 @@
 {
   "name": "agent-pool",
   "version": "0.0.2",
-  "description": "HTTP/HTTPS Agent pool that rotates keepalive agents for working with DNS based load balancing systems",
+  "description": "Agent pool that rotates keepalive agents for working with DNS based load balancing systems",
   "main": "index.js",
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test": "nyc mocha"
   },
+  "keywords": [
+    "agent",
+    "pool",
+    "agentpool",
+    "keepalive"
+  ],
   "author": "Vignesh Shanmugam <vignesh.shanmugam22@gmail.com> (https://vigneshh.in)",
   "repository": {
     "type": "git",
