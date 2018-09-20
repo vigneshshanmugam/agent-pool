@@ -4,7 +4,8 @@
   "description": "HTTP/HTTPS Agent pool that rotates keepalive agents for working with DNS based load balancing systems",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "test": "nyc mocha"
   },
   "author": "Vignesh Shanmugam <vignesh.shanmugam22@gmail.com> (https://vigneshh.in)",
   "repository": {
@@ -24,7 +25,9 @@
     "debug": "^4.0.1"
   },
   "devDependencies": {
+    "codecov": "^3.1.0",
     "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
     "sinon": "^6.3.4"
   }
 }

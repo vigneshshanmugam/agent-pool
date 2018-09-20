@@ -1,4 +1,6 @@
 # Logs
 node_modules/
+.nyc_output
+coverage*
 yarn-debug.log*
 yarn-error.log*
