@@ -1,6 +1,6 @@
 {
   "name": "agent-pool",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "HTTP/HTTPS Agent pool that rotates keepalive agents for working with DNS based load balancing systems",
   "main": "index.js",
   "scripts": {
