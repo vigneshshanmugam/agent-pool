@@ -15,13 +15,16 @@ When you are running high traffic application servers, You would normally end up
 
 If your application is using keepAlive Agents and doing traffic switching between two stacks via `weighted DNS records`, you won't see any redirection of the traffic to the new stack because the connection is reused as long as there are requests to be processed. To force clients to switch, we have to disable the load balancer of the old stack or delete it completely.
 
-### Solution - Agent pooling with socket Preconnect
+### Solution - Agent pooling 
+An Agent pool that maintains the list of agents via Queue and assigns an agent to serve all requests for a specified interval. After the interval, the next agent will be created and assigned to the requests. Once the queue reaches its max agents limit (configurable), The old agents are recycled/destroyed and the new agent will be assigned to serve the traffic.
 
-Agent pool that maintains the list of agents via Queue and assigns an agent to serve all requests for a specified interval. After the interval, the next agent will be created and assigned to the requests. Once the queue reaches its max agents limit (configurable), The old agents are recycled/destroyed and the new agent will be assigned to serve the traffic.
+But once we assign the new agent after the specified interval, the sockets in the old agent will be closed and timed out. All the traffic would end up going via new Agent that needs to create lots of Sockets and perform DNS + TCP + TLS negotiation again. This would result in increased latency, connection and read timeouts.
 
-Once we assign the new agent after the specified interval, the sockets in the old agent will be closed and timed out. All the traffic would end up going via new Agent that needs to create lots of Sockets and perform DNS + TCP + TLS negotiation again. This would result in increased latency, connection and read timeouts.
+### Agent pooling "with socket Preconnect"
 
-In order to address this, the following steps are done before switching the traffic to next available agent
+In order to address the above problem of large number of socket connections being created on every new agent in the pool, we can reuse the meta information from existing sockets from the Agent, before they get destroyed, to preconnect the new Agent to the backend servers (similar to [W3C Resource Hints Preconnect](https://w3c.github.io/resource-hints/#preconnect) in browsers). 
+
+The following steps are done before switching the traffic to next available agent
 
 - If the previous Agent was actively serving traffic, Extract the meta information(hostname, port) from the sockets
 - Create a pool of sockets in the new agent and establish the connection to all backend hosts which should take care of DNS + TCP + TLS (Reuse existing TLS session for same hosts)
