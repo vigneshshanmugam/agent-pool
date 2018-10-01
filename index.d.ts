@@ -1,11 +1,17 @@
 import { HttpsAgent } from 'agentkeepalive';
 import { AgentOptions, Agent } from 'http';
 
-export interface AgentPoolOptions extends AgentOptions {
+interface Logger {
+    info: () => void;
+    warn: () => void;
+    error: () => void;
+}
+
+export interface AgentPoolOptions {
     agentType: Agent;
     maxAgents: number;
     destroyTime: number;
-    logger?: any;
+    logger?: Logger;
 }
     
 export interface KeepAliveAgentOptions extends AgentOptions {
@@ -16,27 +22,6 @@ export = AgentPool;
 
 declare class AgentPool {
     constructor(options? : AgentPoolOptions, agentOptions: KeepAliveAgentOptions) {}
-
-    /**
-     * Create an agent of `agentType` passed to constructor
-     */
-    createAgent(): Agent;
-
-    /**
-     * Set the active agent in pool
-     * @param agent The agent
-     */
-    setActiveAgent(agent: Agent): void;
-
-    /**
-     * Kill old agent and set new ones in the pool
-     */
-    fillAndRecycle(): void;
-
-    /**
-     * Set the timer to monitor the pool and fillAndRecycle
-     */
-    startTimer(): void;
 
     /**
      * Get active agent from the pool
