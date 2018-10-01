@@ -1,10 +1,12 @@
 import { AgentOptions, Agent } from 'http';
 
+type LogFn = (message?: any, ...optional: any[]) => void;
+
 interface Logger {
-    info: () => void;
-    warn: () => void;
-    error: () => void;
-    debug: () => void;
+    info: LogFn;
+    warn: LogFn;
+    error: LogFn;
+    debug: LogFn;
 }
 
 export interface AgentPoolOptions {
@@ -14,12 +16,8 @@ export interface AgentPoolOptions {
     logger?: Logger;
 }
     
-export interface KeepAliveAgentOptions extends AgentOptions {
-    keepAliveTimeout: number;
-}
-
 declare class AgentPool {
-    constructor(options? : AgentPoolOptions, agentOptions: KeepAliveAgentOptions) {}
+    constructor(options? : AgentPoolOptions, agentOptions?: AgentOptions) {}
 
     /**
      * Get active agent from the pool
