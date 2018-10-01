@@ -8,9 +8,9 @@ interface Logger {
 }
 
 export interface AgentPoolOptions {
-    agentType: Agent;
-    maxAgents: number;
-    destroyTime: number;
+    agentType?: Agent;
+    maxAgents?: number;
+    destroyTime?: number;
     logger?: Logger;
 }
     
