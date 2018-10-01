@@ -1,10 +1,10 @@
-import { HttpsAgent } from 'agentkeepalive';
 import { AgentOptions, Agent } from 'http';
 
 interface Logger {
     info: () => void;
     warn: () => void;
     error: () => void;
+    debug: () => void;
 }
 
 export interface AgentPoolOptions {
@@ -17,8 +17,6 @@ export interface AgentPoolOptions {
 export interface KeepAliveAgentOptions extends AgentOptions {
     keepAliveTimeout: number;
 }
-
-export = AgentPool;
 
 declare class AgentPool {
     constructor(options? : AgentPoolOptions, agentOptions: KeepAliveAgentOptions) {}
@@ -33,3 +31,5 @@ declare class AgentPool {
      */
     stats(): any;
 }
+
+export = AgentPool;
