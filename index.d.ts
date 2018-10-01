@@ -1,3 +1,4 @@
+import { AgentStatus } from 'agentkeepalive'
 import { AgentOptions, Agent } from 'http';
 
 type LogFn = (message?: any, ...optional: any[]) => void;
@@ -27,7 +28,7 @@ declare class AgentPool {
     /**
      * Get the stats for the pool at any given point of time
      */
-    stats(): any;
+    stats(): AgentStatus | null;
 }
 
 export = AgentPool;
