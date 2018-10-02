@@ -1,6 +1,6 @@
 {
   "name": "agent-pool",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Agent pool that rotates keepalive agents for traffic switching via DNS",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "lib"
   ],
   "dependencies": {
@@ -38,5 +39,6 @@
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "sinon": "^6.3.4"
-  }
+  },
+  "types": "index.d.ts"
 }
