@@ -107,6 +107,19 @@ describe("AgentPool", () => {
     assert.equal(null, httpPool.stats());
   });
 
+  it("log error and return null on non agentkeepalive", () => {
+    const newPool = new AgentPool({
+      agentType: http.Agent,
+      maxAgents: 1,
+      logger: loggerStub
+    });
+    const agent = newPool.getAgent();
+    const stats = newPool.stats();
+    assert.ok(agent instanceof http.Agent);
+    sinon.assert.calledOnce(loggerStub.warn);
+    assert.equal(stats, null);
+  });
+
   describe("Agent with preconnected sockets", () => {
     let server = null;
     let port = null;
@@ -144,7 +157,7 @@ describe("AgentPool", () => {
           clock.tick(destroyTime);
           sinon.assert.calledWithExactly(
             loggerStub.info,
-            "Creating Preconnect agent with socket pool of 1"
+            "Creating preconnect agent with socket pool of 1"
           );
           return requestPromise(options);
         })
@@ -191,7 +204,7 @@ describe("AgentPool", () => {
           clock.tick(destroyTime);
           sinon.assert.calledWith(
             loggerStub.info,
-            "Creating Preconnect agent with socket pool of 1"
+            "Creating preconnect agent with socket pool of 1"
           );
           return requestPromise(options);
         })
