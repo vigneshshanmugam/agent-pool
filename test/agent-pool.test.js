@@ -14,7 +14,6 @@ describe("AgentPool", () => {
     clock = sinon.useFakeTimers();
     loggerStub = {
       debug: sinon.spy(),
-      info: sinon.spy(),
       warn: sinon.spy()
     };
     httpPool = new AgentPool({
@@ -156,7 +155,7 @@ describe("AgentPool", () => {
           assert.equal(httpPool.agents.length, 1);
           clock.tick(destroyTime);
           sinon.assert.calledWithExactly(
-            loggerStub.info,
+            loggerStub.debug,
             "Creating preconnect agent with socket pool of 1"
           );
           return requestPromise(options);
@@ -203,7 +202,7 @@ describe("AgentPool", () => {
           );
           clock.tick(destroyTime);
           sinon.assert.calledWith(
-            loggerStub.info,
+            loggerStub.debug,
             "Creating preconnect agent with socket pool of 1"
           );
           return requestPromise(options);
